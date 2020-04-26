@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: toh-lagom
+  name: toh-lagom
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: toh-lagom
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: toh-lagom
+        actorSystemName: toh-lagom
+    spec:
+      containers:
+        - name: toh-lagom
+          image: __PLACEHOLDER__
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: management
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: management
+          ports:
+            # akka remoting
+            - name: remoting
+              containerPort: 2552
+              protocol: TCP
+            # akka-management bootstrap
+            - containerPort: 8558
+              protocol: TCP
+              # when contact-point-discovery.port-name is set for cluster bootstrap,
+              # the management port must be named accordingly:
+              # name: management
+          env:
+            # Kubernetes API discovery will use this service name
+            # to look for nodes with this value in the 'app' label.
+            - name: AKKA_CLUSTER_BOOTSTRAP_SERVICE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: "metadata.labels['app']"

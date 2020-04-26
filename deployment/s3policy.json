@@ -1,0 +1,16 @@
+{
+  "Version": "2012-10-17",
+  "Id": "PolicyForCloudFrontPrivateContent",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "__PLACEHOLDER__"
+      },
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "__PLACEHOLDER__"
+    }
+  ]
+}
