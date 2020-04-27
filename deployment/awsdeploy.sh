@@ -10,7 +10,7 @@ echo "Using the toh-lagom version ${TOH_VERSION}."
 # For the purposes of conciseness, we won't check exit code
 # of commands in this script. This is, however, useful, since
 # you don't want to begin, for example, creating a cluster if
-# schema initialization fails. We leave this as an exercise.
+# schema initialization fails. We leave error handling as an exercise.
 
 echo "Initializing AWS Cassandra schema and ECR repository..."
 cd ..; sbt ecr:createRepository initializeSchema; cd ./deployment
@@ -30,6 +30,9 @@ yq write k8deployment.yaml spec.template.spec.containers[0].image "${repositoryU
 eksctl create cluster -f kubernetes.yaml
 kubectl apply -f k8roles.yaml
 rm -rf kubernetes.yaml
+
+# To enable CloudWatch logging, execute this command:
+#eksctl utils update-cluster-logging --region=${AWS_REGION} --cluster=toh-lagom
 
 # For a GPU instance type and the Amazon EKS-optimized AMI with GPU support:
 #echo 'Applying NVIDIA device plugin for Kubernetes...'
