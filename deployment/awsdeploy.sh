@@ -7,6 +7,11 @@ then
 fi
 echo "Using the toh-lagom version ${TOH_VERSION}."
 
+# For the purposes of conciseness, we won't check exit code
+# of commands in this script. This is, however, useful, since
+# you don't want to begin, for example, creating a cluster if
+# schema initialization fails. We leave this as an exercise.
+
 echo "Initializing AWS Cassandra schema and ECR repository..."
 cd ..; sbt ecr:createRepository initializeSchema; cd ./deployment
 repositoryUri=$(aws ecr describe-repositories --repository-names toh-lagom-java \

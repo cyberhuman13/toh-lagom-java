@@ -7,14 +7,14 @@ import com.datastax.driver.core.PlainTextAuthProvider;
 public class CassandraUtils {
     public static final String contactPoint = "cassandra." +
             System.getenv("AWS_REGION") + ".amazonaws.com";
-    private static final String keyspace = "toh-lagom-java";
+    private static final String keyspace = "toh_lagom_java";
     public static final int port = 9142;
 
     public static void initializeSchema() {
         System.setProperty("javax.net.ssl.trustStore", "../cassandra_truststore.jsk");
         System.setProperty("javax.net.ssl.trustStorePassword", "amazon");
-        final Credentials credentials = AmazonUtils.cassandraCredentials();
-        assert credentials != null;
+        final Credentials credentials = AmazonUtils.cassandraCredentials;
+        assert AmazonUtils.cassandraCredentials != null;
 
         final AuthProvider authProvider = new PlainTextAuthProvider(credentials.username, credentials.password);
         final InetSocketAddress address = new InetSocketAddress(contactPoint, port);
