@@ -1,5 +1,5 @@
 {
-  "CallerReference": "toh-lagom",
+  "CallerReference": "toh-lagom-java",
   "Aliases": {
     "Quantity": 0
   },
@@ -8,19 +8,19 @@
     "Quantity": 2,
     "Items": [
       {
-        "Id": "s3-toh-lagom",
-        "DomainName": "__PLACEHOLDER__",
+        "Id": "s3-toh-lagom-java",
+        "DomainName": "${S3_ENDPOINT}",
         "OriginPath": "",
         "CustomHeaders": {
           "Quantity": 0
         },
         "S3OriginConfig": {
-          "OriginAccessIdentity": "__PLACEHOLDER__"
+          "OriginAccessIdentity": "${ORIGIN_ACCESS_IDENTITY}"
         }
       },
       {
-        "Id": "elb-toh-lagom",
-        "DomainName": "__PLACEHOLDER__",
+        "Id": "elb-toh-lagom-java",
+        "DomainName": "${ELB_ENDPOINT}",
         "OriginPath": "",
         "CustomHeaders": {
           "Quantity": 0
@@ -43,7 +43,7 @@
     "Quantity": 0
   },
   "DefaultCacheBehavior": {
-    "TargetOriginId": "s3-toh-lagom",
+    "TargetOriginId": "s3-toh-lagom-java",
     "ForwardedValues": {
       "QueryString": false,
       "Cookies": {
@@ -84,7 +84,7 @@
     "Items": [
       {
         "PathPattern": "api/*",
-        "TargetOriginId": "elb-toh-lagom",
+        "TargetOriginId": "elb-toh-lagom-java",
         "ForwardedValues": {
           "QueryString": true,
           "Cookies": {
@@ -129,7 +129,7 @@
   "CustomErrorResponses": {
     "Quantity": 0
   },
-  "Comment": "Tour of Heroes - Lagom Backend",
+  "Comment": "Tour of Heroes - Lagom Backend (Java)",
   "Logging": {
     "Enabled": false,
     "IncludeCookies": false,

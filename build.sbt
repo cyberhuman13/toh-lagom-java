@@ -72,12 +72,7 @@ lazy val `toh-lagom-java-impl` = (project in file("toh-lagom-java-impl"))
     javaOptions in Universal ++= Seq(
       "-Dpidfile.path=/dev/null",
       "-Dconfig.resource=production.conf",
-      s"-Dplay.http.secret.key=${Random.alphanumeric.take(40).mkString}",
-      s"-Dcassandra.default.authentication.username=${AmazonUtils.cassandraCredentials.username}",
-      s"-Dcassandra.default.authentication.password=${AmazonUtils.cassandraCredentials.password}",
-      s"""-Ddb.default.url=${sys.env.getOrElse("POSTGRESQL_URL", "jdbc:postgresql://localhost/toh_lagom")}""",
-      s"-Ddb.default.username=${AmazonUtils.postgresqlCredentials.username}",
-      s"-Ddb.default.password=${AmazonUtils.postgresqlCredentials.password}"
+      s"-Dplay.http.secret.key=${Random.alphanumeric.take(40).mkString}"
     )
   )
   .settings(

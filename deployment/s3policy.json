@@ -5,12 +5,12 @@
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "__PLACEHOLDER__"
+        "AWS": "${S3_POLICY_PRINCIPAL}"
       },
       "Action": [
         "s3:GetObject"
       ],
-      "Resource": "__PLACEHOLDER__"
+      "Resource": "${S3_POLICY_RESOURCE}"
     }
   ]
 }

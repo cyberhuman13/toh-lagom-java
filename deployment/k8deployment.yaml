@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: toh-lagom
-  name: toh-lagom
+    app: toh-lagom-java
+  name: toh-lagom-java
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: toh-lagom
+      app: toh-lagom-java
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -17,12 +17,12 @@ spec:
   template:
     metadata:
       labels:
-        app: toh-lagom
-        actorSystemName: toh-lagom
+        app: toh-lagom-java
+        actorSystemName: toh-lagom-java
     spec:
       containers:
-        - name: toh-lagom
-          image: __PLACEHOLDER__
+        - name: toh-lagom-java
+          image: ${REPOSITORY_URI}:${TOH_VERSION}
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -33,16 +33,21 @@ spec:
               path: /ready
               port: management
           ports:
-            # akka remoting
+            - name: service-gateway
+              containerPort: 9000
+              protocol: TCP
+            - name: service-locator
+              containerPort: 9008
+              protocol: TCP
             - name: remoting
               containerPort: 2552
               protocol: TCP
-            # akka-management bootstrap
-            - containerPort: 8558
+            - name: akka-artery
+              containerPort: 25520
               protocol: TCP
-              # when contact-point-discovery.port-name is set for cluster bootstrap,
-              # the management port must be named accordingly:
-              # name: management
+            - name: management
+              containerPort: 8558
+              protocol: TCP
           env:
             # Kubernetes API discovery will use this service name
             # to look for nodes with this value in the 'app' label.
@@ -51,3 +56,13 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: "metadata.labels['app']"
+            - name: POSTGRESQL_URL
+              value: ${POSTGRESQL_URL}
+            - name: POSTGRESQL_USERNAME
+              value: ${POSTGRESQL_USERNAME}
+            - name: POSTGRESQL_PASSWORD
+              value: ${POSTGRESQL_PASSWORD}
+            - name: AWS_MCS_USERNAME
+              value: ${AWS_MCS_USERNAME}
+            - name: AWS_MCS_PASSWORD
+              value: ${AWS_MCS_PASSWORD}
