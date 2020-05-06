@@ -18,10 +18,10 @@ aws cloudfront delete-distribution --id ${distributionId} --if-match ${distribut
 echo 'Deleting the CloudFront Origin Access Identity...'
 originAccessIdentity=$(aws cloudfront list-cloud-front-origin-access-identities \
     | jq -r '.CloudFrontOriginAccessIdentityList.Items | .[] | select(.Comment == "toh-lagom-java") | .Id')
-oidEtag=$(aws cloudfront get-cloud-front-origin-access-identity --id ${originAccessIdentity} \
+oaiEtag=$(aws cloudfront get-cloud-front-origin-access-identity --id ${originAccessIdentity} \
     | jq -r '.ETag')
 aws cloudfront delete-cloud-front-origin-access-identity \
-    --id ${originAccessIdentity} --if-match ${oidEtag}
+    --id ${originAccessIdentity} --if-match ${oaiEtag}
 
 echo 'Deleting the load balancer...'
 vpcId=$(aws cloudformation describe-stacks --stack-name eksctl-toh-lagom-java-cluster \
