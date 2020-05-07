@@ -2,7 +2,7 @@
 
 echo 'Disabling the CloudFront distribution...'
 distributionId=$(aws cloudfront list-distributions \
-    | jq -r '.DistributionList.Items | .[] | select(.Comment == "Tour of Heroes - Lagom Backend") | .Id')
+    | jq -r '.DistributionList.Items | .[] | select(.Comment == "Tour of Heroes - Lagom Backend (Java)") | .Id')
 distributionEtag=$(aws cloudfront get-distribution --id ${distributionId} | jq -r '.ETag')
 aws cloudfront get-distribution-config --id ${distributionId} \
     | jq -r '.DistributionConfig' | jq '.Enabled=false' > config.json
