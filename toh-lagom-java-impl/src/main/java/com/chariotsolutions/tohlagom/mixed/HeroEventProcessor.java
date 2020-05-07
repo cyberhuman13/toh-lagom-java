@@ -43,6 +43,10 @@ public class HeroEventProcessor extends com.chariotsolutions.tohlagom.common.Her
             }
         });
 
+        builder.setEventHandler(HeroCreated.class, this::processCreate);
+        builder.setEventHandler(HeroChanged.class, this::processChange);
+        builder.setEventHandler(HeroDeleted.class, this::processDelete);
+
         return builder.build();
     }
 
