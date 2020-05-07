@@ -6,14 +6,14 @@ import java.util.stream.Stream;
 
 public class Helpers {
     private static final Random random = new Random();
-    public static final Duration askTimeout = Duration.ofSeconds(5);
+    public static final Duration askTimeout = Duration.ofSeconds(10);
 
     public static String id2str(int id) {
         return String.format("%10d", id);
     }
 
     public static String newId() {
-        return id2str(random.nextInt());
+        return id2str(random.nextInt(Integer.MAX_VALUE));
     }
 
     public static String convertId(String id) {

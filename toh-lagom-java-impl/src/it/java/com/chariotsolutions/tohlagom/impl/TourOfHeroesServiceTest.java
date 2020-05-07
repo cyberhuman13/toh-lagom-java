@@ -44,11 +44,11 @@ public class TourOfHeroesServiceTest {
     @Test
     public void createHeroes() throws InterruptedException, ExecutionException, TimeoutException {
         final Hero hero1 = service.createHero().invoke(new NewHero(name1))
-                .toCompletableFuture().get(5, SECONDS);
+                .toCompletableFuture().get(10, SECONDS);
         final Hero hero2 = service.createHero().invoke(new NewHero(name2))
-                .toCompletableFuture().get(5, SECONDS);
+                .toCompletableFuture().get(10, SECONDS);
         final Hero hero3 = service.createHero().invoke(new NewHero(name3))
-                .toCompletableFuture().get(5, SECONDS);
+                .toCompletableFuture().get(10, SECONDS);
 
         assertEquals(toTitleCase(name1), hero1.name);
         assertEquals(toTitleCase(name2), hero2.name);
@@ -57,7 +57,7 @@ public class TourOfHeroesServiceTest {
 
     @Test
     public void fetchHeroes() throws InterruptedException {
-        Thread.sleep(5000);
+        Thread.sleep(30000);
         service.heroes().invoke().thenApply(heroes -> {
             assertEquals(3, heroes.size());
             return heroes.stream().map(hero -> hero.name).collect(Collectors.toSet());
@@ -94,7 +94,7 @@ public class TourOfHeroesServiceTest {
             final String heroId = heroes.get(0).id;
             service.changeHero().invoke(new Hero(heroId, newName)).thenAccept(__ -> {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(30000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -113,7 +113,7 @@ public class TourOfHeroesServiceTest {
             final String heroId = heroes.get(0).id;
             service.deleteHero(heroId).invoke().thenAccept(__ -> {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(30000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

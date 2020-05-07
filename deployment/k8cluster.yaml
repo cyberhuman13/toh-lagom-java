@@ -3,7 +3,7 @@ kind: ClusterConfig
 metadata:
   name: toh-lagom-java
   region: ${AWS_REGION}
-nodeGroups:
+managedNodeGroups:
   - name: workers
     instanceType: t3.medium
     desiredCapacity: 2

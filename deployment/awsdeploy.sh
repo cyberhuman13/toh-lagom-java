@@ -65,7 +65,7 @@ dbSubnets=$(aws rds create-db-subnet-group \
 
 echo "Creating an Aurora database cluster..."
 dbCluster=$(aws rds create-db-cluster \
-    --db-cluster-identifier toh-lagom-java --database-name toh_lagom \
+    --db-cluster-identifier toh-lagom-java --database-name toh_lagom_java \
     --engine aurora-postgresql --engine-version 10.7 --engine-mode serverless \
     --master-username ${POSTGRESQL_USERNAME} --master-user-password ${POSTGRESQL_PASSWORD} \
     --scaling-configuration MinCapacity=2,MaxCapacity=8,SecondsUntilAutoPause=1000,AutoPause=true \
@@ -74,7 +74,7 @@ dbCluster=$(aws rds create-db-cluster \
 dbStatus=''
 until [[ ${dbStatus} == 'available' ]]
 do
-    sleep 10
+    sleep 30
     dbStatus=$(aws rds describe-db-clusters --db-cluster-identifier toh-lagom-java \
         | jq -r '.DBClusters[0].Status')
     echo "Cluster status: ${dbStatus}..."
@@ -84,7 +84,7 @@ echo "Successfully created an Aurora Serverless cluster."
 echo 'Updating the production config with the database data...'
 dbEndpoint=$(aws rds describe-db-cluster-endpoints --db-cluster-identifier toh-lagom-java \
     | jq -r '.DBClusterEndpoints[0].Endpoint')
-export POSTGRESQL_URL="jdbc:postgresql://${dbEndpoint}/toh_lagom"
+export POSTGRESQL_URL="jdbc:postgresql://${dbEndpoint}/toh_lagom_java"
 echo "AWS Aurora database: ${POSTGRESQL_URL}"
 
 echo 'Starting the Kubernetes service...'
