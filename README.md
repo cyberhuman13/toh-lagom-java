@@ -6,3 +6,5 @@ but adding a backend instead. Granted, the event-sourced solution presented here
 with a cannon—but our purpose is to illustrate an approach that is easy to generalize for other, more complex applications.
 
 This solution is implemented in Java. A similar solution is implemented in Scala in a different repository (https://github.com/cyberhuman13/toh-lagom).
+
+See https://github.com/cyberhuman13/toh-lagom-java/blob/master/tutorial.pdf for a step-by-step description of how this solution was implemented.
